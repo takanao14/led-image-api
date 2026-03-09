@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package image.v1;
 
-option go_package = "led-image-api/gen/go/image/v1;imagev1";
+option go_package = "github.com/takanao14/led-image-api/gen/go/image/v1;imagev1";
 
 // ImageData represents the image data message
 message ImageData {

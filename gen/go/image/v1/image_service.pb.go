@@ -25,7 +25,7 @@ const (
 type ImageData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ImageData     []byte                 `protobuf:"bytes,1,opt,name=image_data,json=imageData,proto3" json:"image_data,omitempty"` // Binary data in PPM or PNG format
-	MimeType      string                 `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`    // "image/x-portable-pixmap" or "image/png"
+	MimeType      string                 `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`    // MIME type. ex. "image/x-portable-pixmap", "image/png"
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -196,7 +196,7 @@ const file_image_v1_image_service_proto_rawDesc = "" +
 	"\x05image\x18\x01 \x01(\v2\x13.image.v1.ImageDataR\x05image\x12)\n" +
 	"\x10duration_seconds\x18\x02 \x01(\x05R\x0fdurationSeconds2T\n" +
 	"\fImageService\x12D\n" +
-	"\tSendImage\x12\x1a.image.v1.SendImageRequest\x1a\x1b.image.v1.SendImageResponseB'Z%led-image-api/gen/go/image/v1;imagev1b\x06proto3"
+	"\tSendImage\x12\x1a.image.v1.SendImageRequest\x1a\x1b.image.v1.SendImageResponseB<Z:github.com/takanao14/led-image-api/gen/go/image/v1;imagev1b\x06proto3"
 
 var (
 	file_image_v1_image_service_proto_rawDescOnce sync.Once

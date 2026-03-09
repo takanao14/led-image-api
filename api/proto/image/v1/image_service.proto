@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package image.v1;
+
+option go_package = "led-image-api/gen/go/image/v1;imagev1";
+
+// ImageData represents the image data message
+message ImageData {
+    bytes image_data = 1;    // Binary data in PPM or PNG format
+    string mime_type = 2;    // MIME type. ex. "image/x-portable-pixmap", "image/png"
+}
+
+// SendImageResponse represents the response for sending an image
+message SendImageResponse {
+    bool success = 1;        // Flag indicating if the send was successful
+    string message = 2;      // Error message or success message
+}
+
+// SendImageRequest represents the request for sending an image
+message SendImageRequest {
+    ImageData image = 1;           // Image data to send
+    int32 duration_seconds = 2;    // Display duration in seconds
+}
+
+// ImageService provides LED image display operations
+service ImageService {
+    // SendImage sends an image to the LED display
+    rpc SendImage(SendImageRequest) returns (SendImageResponse);
+}

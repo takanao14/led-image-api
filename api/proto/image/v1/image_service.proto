@@ -16,10 +16,21 @@ message SendImageResponse {
     string message = 2;      // Error message or success message
 }
 
+// DisplayMode controls how the image is rendered on the LED panel.
+enum DisplayMode {
+    // Default: mode is inferred from mime_type (PPM=scroll, others=static).
+    DISPLAY_MODE_UNSPECIFIED = 0;
+    // Show image statically.
+    DISPLAY_MODE_STATIC = 1;
+    // Scroll image horizontally.
+    DISPLAY_MODE_SCROLL = 2;
+}
+
 // SendImageRequest represents the request for sending an image
 message SendImageRequest {
-    ImageData image = 1;           // Image data to send
-    int32 duration_seconds = 2;    // Display duration in seconds
+    ImageData image = 1;               // Image data to send
+    int32 duration_seconds = 2;        // Display duration in seconds
+    DisplayMode display_mode = 3;      // Display mode (optional, defaults to UNSPECIFIED)
 }
 
 // ImageService provides LED image display operations

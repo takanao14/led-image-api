@@ -6,7 +6,7 @@ option go_package = "github.com/takanao14/led-image-api/gen/go/image/v1;imagev1"
 
 // ImageData represents the image data message
 message ImageData {
-    bytes image_data = 1;    // Binary data in PPM or PNG format
+    bytes image_data = 1;    // Binary image data (PNG, JPEG, GIF, PPM/PNM)
     string mime_type = 2;    // MIME type. ex. "image/x-portable-pixmap", "image/png"
 }
 

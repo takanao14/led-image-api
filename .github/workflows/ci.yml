@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - uses: bufbuild/buf-setup-action@v1
+
+      - name: Check formatting
+        run: make format-check
+
+      - name: Lint
+        run: make lint
+
+      - name: Verify generated bindings
+        run: make generate-check
+
+      - name: Test Go bindings
+        run: make test
+
+      - name: Check backward compatibility
+        if: github.event_name == 'pull_request'
+        run: make breaking BASE_BRANCH=origin/${{ github.event.pull_request.base.ref }}

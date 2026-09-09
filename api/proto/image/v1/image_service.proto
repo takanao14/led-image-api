@@ -6,35 +6,35 @@ option go_package = "github.com/takanao14/led-image-api/gen/go/image/v1;imagev1"
 
 // ImageData represents the image data message
 message ImageData {
-    bytes image_data = 1;    // Binary image data (PNG, JPEG, GIF, PPM/PNM)
-    string mime_type = 2;    // MIME type. ex. "image/x-portable-pixmap", "image/png"
+  bytes image_data = 1; // Binary image data (PNG, JPEG, GIF, PPM/PNM)
+  string mime_type = 2; // MIME type. ex. "image/x-portable-pixmap", "image/png"
 }
 
 // SendImageResponse represents the response for sending an image
 message SendImageResponse {
-    bool success = 1;        // Flag indicating if the send was successful
-    string message = 2;      // Error message or success message
+  bool success = 1; // Flag indicating if the send was successful
+  string message = 2; // Error message or success message
 }
 
 // DisplayMode controls how the image is rendered on the LED panel.
 enum DisplayMode {
-    // Default: mode is inferred from mime_type (PPM=scroll, others=static).
-    DISPLAY_MODE_UNSPECIFIED = 0;
-    // Show image statically.
-    DISPLAY_MODE_STATIC = 1;
-    // Scroll image horizontally.
-    DISPLAY_MODE_SCROLL = 2;
+  // Default: mode is inferred from mime_type (PPM=scroll, others=static).
+  DISPLAY_MODE_UNSPECIFIED = 0;
+  // Show image statically.
+  DISPLAY_MODE_STATIC = 1;
+  // Scroll image horizontally.
+  DISPLAY_MODE_SCROLL = 2;
 }
 
 // SendImageRequest represents the request for sending an image
 message SendImageRequest {
-    ImageData image = 1;               // Image data to send
-    int32 duration_seconds = 2;        // Display duration in seconds
-    DisplayMode display_mode = 3;      // Display mode (optional, defaults to UNSPECIFIED)
+  ImageData image = 1; // Image data to send
+  int32 duration_seconds = 2; // Display duration in seconds
+  DisplayMode display_mode = 3; // Display mode (optional, defaults to UNSPECIFIED)
 }
 
 // ImageService provides LED image display operations
 service ImageService {
-    // SendImage sends an image to the LED display
-    rpc SendImage(SendImageRequest) returns (SendImageResponse);
+  // SendImage sends an image to the LED display
+  rpc SendImage(SendImageRequest) returns (SendImageResponse);
 }

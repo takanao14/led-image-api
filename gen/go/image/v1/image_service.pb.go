@@ -186,8 +186,12 @@ type SendImageRequest struct {
 	Image           *ImageData             `protobuf:"bytes,1,opt,name=image,proto3" json:"image,omitempty"`                                                           // Image data to send
 	DurationSeconds int32                  `protobuf:"varint,2,opt,name=duration_seconds,json=durationSeconds,proto3" json:"duration_seconds,omitempty"`               // Display duration in seconds
 	DisplayMode     DisplayMode            `protobuf:"varint,3,opt,name=display_mode,json=displayMode,proto3,enum=image.v1.DisplayMode" json:"display_mode,omitempty"` // Display mode (optional, defaults to UNSPECIFIED)
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Minimum horizontal scroll cycles. Positive values take precedence over duration_seconds.
+	ScrollCycles uint32 `protobuf:"varint,4,opt,name=scroll_cycles,json=scrollCycles,proto3" json:"scroll_cycles,omitempty"`
+	// Minimum main display time for cycle-based scrolling, excluding preparation and eye-catch.
+	MinDisplaySeconds uint32 `protobuf:"varint,5,opt,name=min_display_seconds,json=minDisplaySeconds,proto3" json:"min_display_seconds,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *SendImageRequest) Reset() {
@@ -241,6 +245,20 @@ func (x *SendImageRequest) GetDisplayMode() DisplayMode {
 	return DisplayMode_DISPLAY_MODE_UNSPECIFIED
 }
 
+func (x *SendImageRequest) GetScrollCycles() uint32 {
+	if x != nil {
+		return x.ScrollCycles
+	}
+	return 0
+}
+
+func (x *SendImageRequest) GetMinDisplaySeconds() uint32 {
+	if x != nil {
+		return x.MinDisplaySeconds
+	}
+	return 0
+}
+
 var File_image_v1_image_service_proto protoreflect.FileDescriptor
 
 const file_image_v1_image_service_proto_rawDesc = "" +
@@ -252,11 +270,13 @@ const file_image_v1_image_service_proto_rawDesc = "" +
 	"\tmime_type\x18\x02 \x01(\tR\bmimeType\"G\n" +
 	"\x11SendImageResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xa2\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xf7\x01\n" +
 	"\x10SendImageRequest\x12)\n" +
 	"\x05image\x18\x01 \x01(\v2\x13.image.v1.ImageDataR\x05image\x12)\n" +
 	"\x10duration_seconds\x18\x02 \x01(\x05R\x0fdurationSeconds\x128\n" +
-	"\fdisplay_mode\x18\x03 \x01(\x0e2\x15.image.v1.DisplayModeR\vdisplayMode*]\n" +
+	"\fdisplay_mode\x18\x03 \x01(\x0e2\x15.image.v1.DisplayModeR\vdisplayMode\x12#\n" +
+	"\rscroll_cycles\x18\x04 \x01(\rR\fscrollCycles\x12.\n" +
+	"\x13min_display_seconds\x18\x05 \x01(\rR\x11minDisplaySeconds*]\n" +
 	"\vDisplayMode\x12\x1c\n" +
 	"\x18DISPLAY_MODE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13DISPLAY_MODE_STATIC\x10\x01\x12\x17\n" +

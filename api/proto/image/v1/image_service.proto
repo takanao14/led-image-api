@@ -31,6 +31,10 @@ message SendImageRequest {
   ImageData image = 1; // Image data to send
   int32 duration_seconds = 2; // Display duration in seconds
   DisplayMode display_mode = 3; // Display mode (optional, defaults to UNSPECIFIED)
+  // Minimum horizontal scroll cycles. Positive values take precedence over duration_seconds.
+  uint32 scroll_cycles = 4;
+  // Minimum main display time for cycle-based scrolling, excluding preparation and eye-catch.
+  uint32 min_display_seconds = 5;
 }
 
 // ImageService provides LED image display operations

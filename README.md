@@ -8,11 +8,19 @@ to the LED display service. It also publishes generated Go bindings.
 The API is defined in
 [`api/proto/image/v1/image_service.proto`](api/proto/image/v1/image_service.proto).
 `ImageService.SendImage` accepts encoded image bytes, their MIME type, a display
-duration, and an optional display mode.
+duration, and an optional display mode. Clients can alternatively request a
+minimum number of horizontal scroll cycles and a minimum main display time.
 
 Supported image formats are PNG, JPEG, GIF, and PPM/PNM. When `display_mode` is
 `DISPLAY_MODE_UNSPECIFIED`, the service infers the mode from `mime_type`: PPM
 scrolls and other supported formats display statically.
+
+When `scroll_cycles` is positive, a supporting server ignores
+`duration_seconds` and scrolls until both `scroll_cycles` and
+`min_display_seconds` are satisfied. Worker deadlines and shutdown may still
+interrupt playback. Clients may send a positive `duration_seconds` alongside
+cycle options as a fallback for older servers, which ignore the new fields and
+therefore cannot guarantee the cycle count or minimum display time.
 
 ## Consumers
 

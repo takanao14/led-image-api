@@ -81,8 +81,11 @@ Generated files under `gen/go` are committed. Never edit them manually.
 
 1. Update the Proto definition without reusing or renumbering existing fields.
 2. Run `make format`, `make generate`, and `make check`.
-3. Commit the Proto and generated bindings together.
-4. Tag the API repository with a SemVer tag such as `v0.2.0` and push it.
+3. Commit the Proto and generated bindings together and open a PR targeting
+   `main`. The required `check` job also checks compatibility against the PR's
+   base commit. Merge only after it passes; no approval is required.
+4. After the PR is merged, tag the merged commit on `main` with a SemVer tag
+   such as `v0.2.0` and push the tag.
 5. Update `slack-bot` to the new Go module tag and run its CI checks.
 6. Update the `led-service2/led-image-api` submodule to the same tag and run its
    CI checks.
@@ -92,3 +95,17 @@ changes, a minor release for backward-compatible API additions, and a major
 release for breaking API changes. Before the project reaches `v1.0.0`, breaking
 changes require an explicit release note and coordinated updates to both
 consumers.
+
+The release version does not exempt a change from compatibility checks. For an
+intentional incompatible API design, add a new Proto package (for example,
+`image.v2`) and its generated bindings while retaining `image.v1`. Document the
+migration in the release notes and coordinate both consumers before retiring
+the old API. Removing or changing the existing API in place remains blocked by
+the `FILE` compatibility check, even for a pre-1.0 or major release; do not add
+routine skips or relax `buf.yaml`. A Go module release at v2 or above also
+requires the `/v2` (or later major) module/import paths; a Proto package version
+and a Go module major version are separate decisions.
+
+`main` requires PRs and the GitHub Actions `check` result, with the branch up to
+date before merging. Deletion and force pushes are blocked, with no owner or
+Bot bypass. Use the same PR process for automation and maintenance changes.

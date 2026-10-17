@@ -30,11 +30,11 @@ generate:
 	$(BUF) generate
 
 generate-check:
-	@tmp_dir=$$(mktemp -d); \
+	@set -eu; \
+	tmp_dir=$$(mktemp -d); \
 	trap 'rm -rf "$$tmp_dir"' EXIT; \
-	cp -R gen/go "$$tmp_dir/go"; \
-	$(BUF) generate; \
-	diff -ru "$$tmp_dir/go" gen/go
+	$(BUF) generate --output "$$tmp_dir"; \
+	diff -ru gen/go "$$tmp_dir/gen/go"
 
 test:
 	$(GO) test ./...

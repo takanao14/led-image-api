@@ -41,4 +41,8 @@ jobs:
 
       - name: Check backward compatibility
         if: github.event_name == 'pull_request'
-        run: make breaking BASE_BRANCH=origin/${{ github.event.pull_request.base.ref }}
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags origin "$PR_BASE_SHA"
+          make breaking BASE_BRANCH="$PR_BASE_SHA"
